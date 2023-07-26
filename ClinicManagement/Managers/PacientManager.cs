@@ -32,22 +32,25 @@ public class PacientManager : IPacientManager
         return result;
     }
 
-    public async ValueTask<Pacient?> GetPacientByPhone(string phoneNumber)
+    public async ValueTask<PacientModel?> GetPacientByPhone(string phoneNumber)
     {
         var pacient = await _pacientRepository.GetPacientByPhoneNumber(phoneNumber);
-        return pacient;
+        var pacientModel = pacient?.Adapt<PacientModel>();
+        return pacientModel;
     }
 
-    public async ValueTask<Pacient?> GetPacientById(int id)
+    public async ValueTask<PacientModel?> GetPacientById(int id)
     {
         var pacient = await _pacientRepository.GetPacientById(id);
-        return pacient;
+        var pacientModel = pacient?.Adapt<PacientModel>();
+        return pacientModel;
     }
 
-    public async ValueTask<List<Pacient>?> GetPacients()
+    public async ValueTask<List<PacientModel>?> GetPacients()
     {
         var pacients = await _pacientRepository.GetPacients();
-        return pacients;
+        var pacientModels = pacients?.Adapt<List<PacientModel>>();
+        return pacientModels;
     }
 
     public async ValueTask<bool> UpdatePacient(UpdatePacientModel updatePacient, int id)
