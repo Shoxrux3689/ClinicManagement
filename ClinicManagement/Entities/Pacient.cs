@@ -10,5 +10,5 @@ public class Pacient
     public string Muolaja { get; set; }
     public long MuolajaPrice { get; set; }
     public long BerilganSumma { get; set; }
-    public DateTime? ComeDate { get; set; }
+    public DateTime ComeDate { get; set; }
 }
