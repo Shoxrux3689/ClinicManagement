@@ -8,8 +8,8 @@ public class Pacient
     public string? Shikoyat { get; set; }
     public string? Tashxis { get; set; }
     public string? Muolaja { get; set; }
-    public long MuolajaPrice { get; set; }
+    public long MuolajaNarxi { get; set; }
     public long BerilganSumma { get; set; }
     public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
-    public DateOnly ComeDate { get; set; }
+    public List<DateTime>? Tashriflar{ get; set; }
 }
