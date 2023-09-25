@@ -15,49 +15,36 @@ public class PacientRepository : IPacientRepository
         _context = context;
     }
 
-    public async ValueTask<bool> CreatePacient(Pacient pacient)
+    public async Task<int> CreatePacient(Pacient pacient)
     {
         _context.Pacients.Add(pacient);
         await _context.SaveChangesAsync();
-
-        return true;
+        return pacient.Id;
     }
 
-    public async ValueTask<bool> DeletePacient(Pacient pacient)
+    public async Task DeletePacient(Pacient pacient)
     {
-        _context.Pacients.Update(pacient);
+        _context.Pacients.Remove(pacient);
         await _context.SaveChangesAsync();
-        return true;
     }
 
-    public async ValueTask<Pacient?> GetPacientById(int Id)
+    public async Task<Pacient?> GetPacientById(int pacientId)
     {
-        var pacient = await _context.Pacients.FirstOrDefaultAsync(p => p.Id == Id);
+        var pacient = await _context.Pacients.FirstOrDefaultAsync(p => p.Id == pacientId);
+        
         return pacient;
     }
 
-    public async ValueTask<Pacient?> GetPacientByName(string name)
+    public async Task<List<Pacient>?> GetPacientsByFilter(PacientFilter pacientFilter)
     {
-        var pacient = await _context.Pacients.FirstOrDefaultAsync(p => p.Name == name);
-        return pacient;
-    }
-
-    public async ValueTask<Pacient?> GetPacientByPhoneNumber(string phoneNumber)
-    {
-        var pacient = await _context.Pacients.FirstOrDefaultAsync(p => p.PhoneNumber == phoneNumber);
-        return pacient;
-    }
-
-    public async ValueTask<List<Pacient>> GetPacients()
-    {
+        //chala qilindi
         var pacients = await _context.Pacients.ToListAsync();
         return pacients;
     }
 
-    public async ValueTask<bool> UpdatePacient(Pacient pacient)
+    public async Task UpdatePacient(Pacient pacient)
     {
-        _context.Pacients.Update(pacient);
+        _context.Update(pacient);
         await _context.SaveChangesAsync();
-        return true;
     }
 }
