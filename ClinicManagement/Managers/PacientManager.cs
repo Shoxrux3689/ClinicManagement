@@ -15,53 +15,32 @@ public class PacientManager : IPacientManager
         _pacientRepository = pacientRepository;
     }
 
-    public async ValueTask<bool> CreatePacient(CreatePacientModel createPacient)
+    public async Task<int> CreatePacient(CreatePacientModel createPacient)
     {
         var pacient = createPacient.Adapt<Pacient>();
+
         await _pacientRepository.CreatePacient(pacient);
-        return true;
+
+
     }
 
-    public async ValueTask<bool> DeletePacient(int id)
+    public Task DeletePacient(int id)
     {
-        var pacient = await _pacientRepository.GetPacientById(id);
-        if (pacient == null)
-            return false;
-        
-        var result = await _pacientRepository.DeletePacient(pacient);
-        return result;
+        throw new NotImplementedException();
     }
 
-    public async ValueTask<PacientModel?> GetPacientByPhone(string phoneNumber)
+    public Task<PacientModel?> GetPacientById(int id)
     {
-        var pacient = await _pacientRepository.GetPacientByPhoneNumber(phoneNumber);
-        var pacientModel = pacient?.Adapt<PacientModel>();
-        return pacientModel;
+        throw new NotImplementedException();
     }
 
-    public async ValueTask<PacientModel?> GetPacientById(int id)
+    public Task<List<PacientModel>?> GetPacientsByFilter(PacientFilter pacientFilter)
     {
-        var pacient = await _pacientRepository.GetPacientById(id);
-        var pacientModel = pacient?.Adapt<PacientModel>();
-        return pacientModel;
+        throw new NotImplementedException();
     }
 
-    public async ValueTask<List<PacientModel>?> GetPacients()
+    public Task UpdatePacient(UpdatePacientModel updatePacient, int id)
     {
-        var pacients = await _pacientRepository.GetPacients();
-        var pacientModels = pacients?.Adapt<List<PacientModel>>();
-        return pacientModels;
-    }
-
-    public async ValueTask<bool> UpdatePacient(UpdatePacientModel updatePacient, int id)
-    {
-        var pacient = await _pacientRepository.GetPacientById(id);
-        if (pacient == null)
-            return false;
-
-        pacient = updatePacient.Adapt<Pacient>();
-
-        var result = await _pacientRepository.UpdatePacient(pacient);
-        return result;
+        throw new NotImplementedException();
     }
 }
