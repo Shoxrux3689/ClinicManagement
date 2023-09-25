@@ -21,6 +21,10 @@
   <ItemGroup>
     <Folder Include="Extensions\" />
     <Folder Include="Middlewares\" />
+    <Folder Include="Models\DoctorModels\" />
+    <Folder Include="Models\PacientModels\" />
+    <Folder Include="Models\ProcedureModels\" />
+    <Folder Include="Models\VisitModels\" />
   </ItemGroup>
 
 </Project>

@@ -2,7 +2,7 @@
 
 namespace ClinicManagement.Repositories;
 
-public class AdminRepository : IAdminRepository
+public class DoctorRepository : IDoctorRepository
 {
 
 }
