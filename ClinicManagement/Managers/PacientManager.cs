@@ -21,7 +21,7 @@ public class PacientManager : IPacientManager
 
         await _pacientRepository.CreatePacient(pacient);
 
-
+        return pacient.Id;
     }
 
     public Task DeletePacient(int id)

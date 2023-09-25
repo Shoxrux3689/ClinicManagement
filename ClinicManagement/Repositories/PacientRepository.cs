@@ -15,11 +15,10 @@ public class PacientRepository : IPacientRepository
         _context = context;
     }
 
-    public async Task<int> CreatePacient(Pacient pacient)
+    public async Task CreatePacient(Pacient pacient)
     {
         _context.Pacients.Add(pacient);
         await _context.SaveChangesAsync();
-        return pacient.Id;
     }
 
     public async Task DeletePacient(Pacient pacient)
