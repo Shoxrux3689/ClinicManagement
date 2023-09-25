@@ -24,23 +24,36 @@ public class PacientManager : IPacientManager
         return pacient.Id;
     }
 
-    public Task DeletePacient(int id)
+    public async Task DeletePacient(int id)
     {
-        throw new NotImplementedException();
+        var pacient = await _pacientRepository.GetPacientById(id);
+        if (pacient == null)
+            throw new Exception("Pacient is not found!");
+
+        await _pacientRepository.DeletePacient(pacient);
     }
 
-    public Task<PacientModel?> GetPacientById(int id)
+    public async Task<PacientModel?> GetPacientById(int id)
     {
-        throw new NotImplementedException();
+        var pacient = await _pacientRepository.GetPacientById(id);
+
+        return pacient.Adapt<PacientModel>();
     }
 
-    public Task<List<PacientModel>?> GetPacientsByFilter(PacientFilter pacientFilter)
+    public async Task<List<PacientModel>?> GetPacientsByFilter(PacientFilter pacientFilter)
     {
-        throw new NotImplementedException();
+        var pacients = await _pacientRepository.GetPacientsByFilter(pacientFilter);
+        return pacients.Adapt<List<PacientModel>>();
     }
 
-    public Task UpdatePacient(UpdatePacientModel updatePacient, int id)
+    public async Task UpdatePacient(UpdatePacientModel updatePacient, int id)
     {
-        throw new NotImplementedException();
+        var pacient = await _pacientRepository.GetPacientById(id);
+        if (pacient == null)
+            throw new Exception("Pacient is not found!");
+
+        pacient = updatePacient.Adapt<Pacient>();
+
+        await _pacientRepository.UpdatePacient(pacient);
     }
 }
