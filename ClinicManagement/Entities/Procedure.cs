@@ -8,4 +8,5 @@ public class Procedure
     public required string Name { get; set; }
     public Doctor? Doctor { get; set; }
     public int DoctorId { get; set; }
+    public List<VisitProcedure>? Procedures { get; set; }
 }
