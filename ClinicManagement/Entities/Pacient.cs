@@ -12,4 +12,6 @@ public class Pacient
     public string? PhotoPath{ get; set; }
     public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
     public List<Visit>? Visits{ get; set; }
+    public Doctor? Doctor { get; set; }
+    public int DoctorId { get; set; }
 }
