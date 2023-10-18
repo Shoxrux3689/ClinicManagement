@@ -7,6 +7,6 @@ public class Visit
     public long Price { get; set; }
     public string? Description { get; set; }
     public Pacient? Pacient { get; set; }
-    public int PacientId { get; set; }
+    public int PacientId { get; set; } 
     public List<VisitProcedure>? VisitProcedures { get; set; }
 }
