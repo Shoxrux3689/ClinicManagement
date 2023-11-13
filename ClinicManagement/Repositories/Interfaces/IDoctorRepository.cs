@@ -2,9 +2,6 @@
 
 namespace ClinicManagement.Repositories.Interfaces;
 
-public interface IDoctorRepository
+public interface IDoctorRepository<TEntity, TId> : IGenericRepository<TEntity, TId>
 {
-    Task<int> CreateDoctor(Doctor doctor);
-    Task UpdateDoctor(Doctor doctor);
-    Task<Doctor?> GetDoctorById(int doctorId);
 }
