@@ -15,37 +15,4 @@ public class PacientRepository : IPacientRepository
     {
         _context = context;
     }
-
-    public async Task<int> CreatePacient(Pacient pacient)
-    {
-        _context.Pacients.Add(pacient);
-        await _context.SaveChangesAsync();
-        return pacient.Id;
-    }
-
-    public async Task DeletePacient(Pacient pacient)
-    {
-        _context.Pacients.Remove(pacient);
-        await _context.SaveChangesAsync();
-    }
-
-    public async Task<Pacient?> GetPacientById(int pacientId)
-    {
-        var pacient = await _context.Pacients.FirstOrDefaultAsync(p => p.Id == pacientId);
-        
-        return pacient;
-    }
-
-    public async Task<List<Pacient>?> GetPacientsByFilter(PacientFilter pacientFilter)
-    {
-        //chala qilindi
-        var pacients = await _context.Pacients.ToListAsync();
-        return pacients;
-    }
-
-    public async Task UpdatePacient(Pacient pacient)
-    {
-        _context.Update(pacient);
-        await _context.SaveChangesAsync();
-    }
 }

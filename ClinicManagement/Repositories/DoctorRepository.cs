@@ -14,22 +14,4 @@ public class DoctorRepository : IDoctorRepository
         _context = context;
     }
 
-    public async Task<int> CreateDoctor(Doctor doctor)
-    {
-        _context.Doctors.Add(doctor);
-        await _context.SaveChangesAsync();
-        return doctor.Id;
-    }
-
-    public async Task<Doctor?> GetDoctorById(int doctorId)
-    {
-        var doctor = await _context.Doctors.FirstOrDefaultAsync(d => d.Id == doctorId);
-        return doctor;
-    }
-
-    public async Task UpdateDoctor(Doctor doctor)
-    {
-        _context.Update(doctor);
-        await _context.SaveChangesAsync();
-    }
 }
