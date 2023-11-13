@@ -1,5 +1,6 @@
 ﻿using ClinicManagement.Context;
 using ClinicManagement.Entities;
+using ClinicManagement.Filters;
 using ClinicManagement.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Xml.Linq;
@@ -15,10 +16,11 @@ public class PacientRepository : IPacientRepository
         _context = context;
     }
 
-    public async Task CreatePacient(Pacient pacient)
+    public async Task<int> CreatePacient(Pacient pacient)
     {
         _context.Pacients.Add(pacient);
         await _context.SaveChangesAsync();
+        return pacient.Id;
     }
 
     public async Task DeletePacient(Pacient pacient)

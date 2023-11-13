@@ -1,4 +1,5 @@
 ﻿using ClinicManagement.Entities;
+using ClinicManagement.Filters;
 
 namespace ClinicManagement.Repositories.Interfaces;
 
