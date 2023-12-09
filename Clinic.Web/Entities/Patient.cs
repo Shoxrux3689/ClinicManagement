@@ -1,6 +1,6 @@
-﻿using ClinicManagement.Enums;
+﻿using Clinic.Web.Enums;
 
-namespace ClinicManagement.Entities;
+namespace Clinic.Web.Entities;
 
 public class Patient
 {

@@ -1,7 +1,7 @@
-﻿using ClinicManagement.Entities;
+﻿using Clinic.Web.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace ClinicManagement.Context;
+namespace Clinic.Web.Context;
 
 public class AppDbContext : DbContext
 {
