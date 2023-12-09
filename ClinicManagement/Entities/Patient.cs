@@ -11,7 +11,7 @@ public class Patient
     public DateTime DateOfBirth { get; set; }
     public Gender Gender { get; set; }
     public int OrganizationId { get; set; }
-    public Organization Organization { get; set; }
+    public Organization? Organization { get; set; }
     public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
     public ICollection<Visit>? Visits { get; set; }
     

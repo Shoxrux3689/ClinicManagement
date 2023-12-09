@@ -8,5 +8,6 @@ public class Visit
     public string Prescription { get; set; }
     public int PatientId { get; set; }
     public Patient Patient { get; set; }
-    public ICollection<Treatment> Treatments { get; set; }
+    public decimal Cost { get; set; }
+    public ICollection<VisitTreatment>? VisitsTreatments { get; set; }
 }
