@@ -6,6 +6,9 @@ namespace Clinic.Services.Repositories.PatientRepositories;
 
 public interface IPatientRepository
 {
-    ValueTask<PatientModel> AddPatient(PatientDto patientDto);
+    ValueTask<PatientModel> AddPatient(int organizationId,PatientDto patientDto);
     ValueTask<IEnumerable<PatientModel>> GetPatients(PatientFilter filter);
+    ValueTask<PatientModel> GetPatientById(int patientId);
+    void DeletePatient(int patientId);
+
 }
