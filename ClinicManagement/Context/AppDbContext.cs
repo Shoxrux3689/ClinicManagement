@@ -5,11 +5,9 @@ namespace ClinicManagement.Context;
 
 public class AppDbContext : DbContext
 {
-    public DbSet<Pacient> Pacients { get; set;}
-    public DbSet<Doctor> Doctors { get; set;}
+    public DbSet<Organization> Organizations { get; set;}
+    public DbSet<Treatment> Treatments { get; set;}
     public DbSet<Visit> Visits { get; set;}
-    public DbSet<Procedure> Procedures { get; set;}
-    public DbSet<VisitProcedure> VisitProcedures { get; set;}
-
+    public DbSet<Patient> Patients { get; set;}
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 }
