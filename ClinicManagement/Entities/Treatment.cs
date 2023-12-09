@@ -1,5 +1,4 @@
-﻿using Admin = ClinicManagement.Entities;
-
+﻿
 namespace ClinicManagement.Entities;
 
 public class Treatment
