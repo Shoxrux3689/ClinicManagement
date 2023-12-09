@@ -1,5 +1,5 @@
 ﻿
-namespace Clinic.Web.Entities;
+namespace Clinic.Domain.Entities;
 
 public class Treatment
 {

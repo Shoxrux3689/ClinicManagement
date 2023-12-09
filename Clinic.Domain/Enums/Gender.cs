@@ -1,4 +1,4 @@
-namespace Clinic.Web.Enums;
+namespace Clinic.Domain.Enums;
 
 public enum Gender
 {

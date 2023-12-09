@@ -1,4 +1,4 @@
-﻿using Clinic.Web.Entities;
+﻿using Clinic.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Clinic.Web.Context;
