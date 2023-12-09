@@ -1,4 +1,4 @@
-﻿namespace ClinicManagement.Entities;
+﻿namespace Clinic.Web.Entities;
 
 public class Organization   
 {
