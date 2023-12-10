@@ -42,6 +42,7 @@ public class VisitRepository : IVisitRepository
         {
             throw new PatientNotFoundException(patientId);
         }
+        //null ni ichidan qanday qidiradi, topolmidiyu hech nimani
         var visits =  patient.Visits!.ToList();
         return _mapper.Map<IEnumerable<VisitModel>>(visits);
     }
@@ -59,6 +60,7 @@ public class VisitRepository : IVisitRepository
         {
             throw new PatientNotFoundException(patientId);
         }
+        //null ni ichidan qanday qidiradi, topolmidiyu hech nimani
         var visit = patient.Visits!.FirstOrDefault(c => c.Id == visitId);
         if (visit is null)
         {
@@ -74,6 +76,8 @@ public class VisitRepository : IVisitRepository
         {
             throw new PatientNotFoundException(patientId);
         }
+
+        //null ni ichidan qanday qidiradi, topolmidiyu hech nimani
         var visit = patient.Visits!.FirstOrDefault(c => c.Id == visitId);
         if (visit is null)
         {

@@ -10,7 +10,6 @@ public class PatientFilter : PaginationParams
     public string? LastName { get; set; }
     public string? PhoneNumber { get; set; }
     public Gender? Gender { get; set; }
-    public int? OrganizationId { get; set; }
     public DateTime? CreatedDate { get; set; }
 
     

@@ -6,5 +6,4 @@ namespace Clinic.Services.Repositories.TreatmentRepositories;
 public interface ITreatmentRepository
 {
     
-    
 }

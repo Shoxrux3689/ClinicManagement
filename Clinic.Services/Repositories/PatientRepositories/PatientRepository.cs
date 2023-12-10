@@ -39,7 +39,7 @@ public class PatientRepository : IPatientRepository
         await _genericRepository.InsertAsync(patient);
         return _mapper.Map<PatientModel>(patient);
     }
-    public async ValueTask<IEnumerable<PatientModel>> GetPatients(PatientFilter filter)
+    public async ValueTask<IEnumerable<PatientModel>?> GetPatients(PatientFilter filter)
     {
         var patients = _genericRepository.SelectAll();
         if (filter.FirstName is not null)
@@ -64,26 +64,22 @@ public class PatientRepository : IPatientRepository
         {
             patients = patients.Where(t => t.PhoneNumber == filter.PhoneNumber);
         }
-        if (filter.OrganizationId is not null)
-        {
-            patients = patients.Where(t => t.OrganizationId == filter.OrganizationId);
-        }
         if(filter.CreatedDate is not null)
         {
             patients = patients.Where(t=>t.CreatedDate == filter.CreatedDate);
         }
-        var patientsPages = patients.ToPagedListAsync(_httpContextHelper,filter).Result;
+        var patientsPages = await patients.ToPagedListAsync(_httpContextHelper,filter);
         return patientsPages.Select(v => _mapper.Map<PatientModel>(v));
     }
 
-    public async ValueTask<PatientModel> GetPatientById(int organizationId,int patientId)
+    public async ValueTask<PatientModel?> GetPatientById(int organizationId,int patientId)
     {
         var organization = await _organizationRepository.SelectFirstAsync(c=>c.Id == organizationId);
         if (organization is null)
         {
             throw new OrganizationIsNotExistsException(organizationId);
         }
-
+        // null ni ichidan qanday qidiradi, topolmidiyu hech nimani
         var patient =  organization.Patients!.FirstOrDefault(i => i.Id == patientId);
         if (patient is null)
         {
@@ -99,6 +95,7 @@ public class PatientRepository : IPatientRepository
         {
             throw new OrganizationIsNotExistsException(organizationId);
         }
+        // null ni ichidan qanday qidiradi, topolmidiyu hech nimani
         var patient = organization.Patients!.FirstOrDefault(i=>i.Id == patientId);
         if (patient is null)
         {
