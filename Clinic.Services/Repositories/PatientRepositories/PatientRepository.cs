@@ -34,7 +34,6 @@ public class PatientRepository : IPatientRepository
         {
             throw new OrganizationIsNotExistsException(patientDto.OrganizationId);
         }
-
         var patient = _mapper.Map<Patient>(patientDto);
         patient.CreatedDate = DateTime.Now;
         await _genericRepository.InsertAsync(patient);
