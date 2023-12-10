@@ -27,39 +27,37 @@ public class PatientRepository : IPatientRepository
         _httpContextHelper = httpContextHelper;
     }
 
-    public async ValueTask<PatientModel> AddPatient(int organizationId, PatientDto patientDto)
+    public async ValueTask<PatientModel> AddPatient(PatientDto patientDto)
     {
-        var isOrganizationExist = await _organizationRepository.HasAnyAsync(c => c.Id == organizationId);
+        var isOrganizationExist = await _organizationRepository.HasAnyAsync(c => c.Id == patientDto.OrganizationId);
         if (!isOrganizationExist)
         {
-            throw new OrganizationIsNotExistsException(organizationId);
+            throw new OrganizationIsNotExistsException(patientDto.OrganizationId);
         }
 
         var patient = _mapper.Map<Patient>(patientDto);
         patient.CreatedDate = DateTime.Now;
-        patient.OrganizationId = organizationId;
         await _genericRepository.InsertAsync(patient);
         return _mapper.Map<PatientModel>(patient);
     }
-
     public async ValueTask<IEnumerable<PatientModel>> GetPatients(PatientFilter filter)
     {
         var patients = _genericRepository.SelectAll();
         if (filter.FirstName is not null)
         {
-            patients = patients.Where(t => t.FirstName.ToLower()
+            patients = patients.Where(t => t.FirstName!.ToLower()
                 .Contains(filter.FirstName.ToLower()));
         }
 
         if (filter.LastName is not null)
         {
-            patients = patients.Where(t => t.LastName.ToLower()
+            patients = patients.Where(t => t.LastName!.ToLower()
                 .Contains(filter.LastName.ToLower()));
         }
 
         if (filter.PhoneNumber is not null)
         {
-            patients = patients.Where(t => t.PhoneNumber.ToLower()
+            patients = patients.Where(t => t.PhoneNumber!.ToLower()
                 .Contains(filter.PhoneNumber.ToLower()));
         }
 
@@ -81,12 +79,13 @@ public class PatientRepository : IPatientRepository
 
     public async ValueTask<PatientModel> GetPatientById(int organizationId,int patientId)
     {
-        var isOrganizationExist = await _organizationRepository.HasAnyAsync(c => c.Id == organizationId);
-        if (!isOrganizationExist)
+        var organization = await _organizationRepository.SelectFirstAsync(c=>c.Id == organizationId);
+        if (organization is null)
         {
             throw new OrganizationIsNotExistsException(organizationId);
         }
-        var patient = await _genericRepository.SelectFirstAsync(t => t.Id == patientId);
+
+        var patient =  organization.Patients!.FirstOrDefault(i => i.Id == patientId);
         if (patient is null)
         {
             throw new PatientNotFoundException(patientId);
@@ -94,19 +93,19 @@ public class PatientRepository : IPatientRepository
         return _mapper.Map<PatientModel>(patient);
     }
 
-    public void DeletePatient(int organizationId, int patientId)
+    public async ValueTask DeletePatient(int organizationId, int patientId)
     {
-        var isOrganizationExist = _organizationRepository.HasAnyAsync(c => c.Id == organizationId).Result;
-        if (!isOrganizationExist)
+        var organization = await _organizationRepository.SelectFirstAsync(t=>t.Id == organizationId);
+        if (organization is null)
         {
             throw new OrganizationIsNotExistsException(organizationId);
         }
-        var patient = _genericRepository.SelectFirstAsync(t => t.Id == patientId).Result;
+        var patient = organization.Patients!.FirstOrDefault(i=>i.Id == patientId);
         if (patient is null)
         {
             throw new PatientNotFoundException(patientId);
         }
-        _genericRepository.DeleteAsync(patient);
+        await _genericRepository.DeleteAsync(patient);
     }
     
 }
