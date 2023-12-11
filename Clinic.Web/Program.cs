@@ -1,5 +1,7 @@
 using System.Text.Json.Serialization;
+using AutoMapper;
 using Clinic.Data.Context;
+using Clinic.Services.AutoMapper;
 using Clinic.Services.Extensions;
 using Microsoft.EntityFrameworkCore;
 
@@ -25,6 +27,13 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 });
 
 
+var mapperConfig = new MapperConfiguration(mc =>
+{
+    mc.AddProfile(new MappingProfile());
+});
+
+IMapper mapper = mapperConfig.CreateMapper();
+builder.Services.AddSingleton(mapper);
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
