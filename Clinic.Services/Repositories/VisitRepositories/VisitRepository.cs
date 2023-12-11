@@ -24,7 +24,8 @@ public class VisitRepository : IVisitRepository
 
     public async ValueTask<VisitModel> AddVisit(VisitDto visitDto)
     {
-        var patient = await _patientRepository.SelectFirstAsync(c => c.Id == visitDto.PatientId);
+        var patient = await _patientRepository.SelectFirstAsync
+            (c => c.Id == visitDto.PatientId);
         if (patient == null)
         {
             throw new PatientNotFoundException(visitDto.PatientId);

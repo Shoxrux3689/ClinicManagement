@@ -6,11 +6,11 @@ namespace Clinic.Web.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class OrganizationController : ControllerBase
+public class OrganizationsController : ControllerBase
 {
     private readonly IOrganizationRepository _organizationRepository;
 
-    public OrganizationController(IOrganizationRepository organizationRepository)
+    public OrganizationsController(IOrganizationRepository organizationRepository)
     {
         _organizationRepository = organizationRepository;
     }
