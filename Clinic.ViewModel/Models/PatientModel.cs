@@ -11,6 +11,6 @@ public class PatientModel
     public DateTime DateOfBirth { get; set; }
     public Gender Gender { get; set; }
     public int OrganizationId { get; set; }
-    public DateTime CreatedDate { get; set; }
+    public DateTime CreatedDate { get; set; } = DateTime.Now;
     public virtual ICollection<VisitModel>? Visits { get; set; }
 }
