@@ -10,6 +10,7 @@ public class HttpContextHelper
     {
         _httpContext = httpContext;
     }
+
     public void AddResponseToHeader(string key, string value)
     {
         if (_httpContext == null)
@@ -21,6 +22,7 @@ public class HttpContextHelper
         {
             _httpContext.HttpContext!.Response.Headers.Remove(key);
         }
+
         _httpContext.HttpContext!.Response.Headers.Add("Access-Control-Expose-Headers", key);
         _httpContext.HttpContext!.Response.Headers.Add(key, value);
     }

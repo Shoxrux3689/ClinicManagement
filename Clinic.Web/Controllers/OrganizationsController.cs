@@ -15,6 +15,7 @@ public class OrganizationsController : ControllerBase
     {
         _organizationRepository = organizationRepository;
     }
+
     [HttpPost]
     public async ValueTask<IActionResult> RegisterOrganization(OrganizationDto organizationDto)
     {
@@ -32,6 +33,7 @@ public class OrganizationsController : ControllerBase
             return BadRequest(e.Message);
         }
     }
+
     [HttpGet]
     public async ValueTask<IActionResult> GetOrganizations()
     {
@@ -45,6 +47,7 @@ public class OrganizationsController : ControllerBase
             return BadRequest(e.Message);
         }
     }
+
     [HttpGet("{organizationId}")]
     public async ValueTask<IActionResult> GetOrganizationById(int organizationId)
     {
@@ -62,6 +65,7 @@ public class OrganizationsController : ControllerBase
             return BadRequest(e.Message);
         }
     }
+
     [HttpDelete("{organizationId}")]
     public async ValueTask<IActionResult> DeleteOrganization(int organizationId)
     {
@@ -79,5 +83,4 @@ public class OrganizationsController : ControllerBase
             return BadRequest(e.Message);
         }
     }
-    
 }

@@ -1,6 +1,6 @@
 ﻿namespace Clinic.Domain.Entities;
 
-public class Organization   
+public class Organization
 {
     public int Id { get; set; }
     public required string Login { get; set; }

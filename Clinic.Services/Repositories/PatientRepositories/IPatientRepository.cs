@@ -8,7 +8,6 @@ public interface IPatientRepository
 {
     ValueTask<PatientModel> AddPatient(PatientDto patientDto);
     ValueTask<IEnumerable<PatientModel>?> GetPatients(PatientFilter filter);
-    ValueTask<PatientModel?> GetPatientById(int organizationId,int patientId);
+    ValueTask<PatientModel?> GetPatientById(int organizationId, int patientId);
     ValueTask DeletePatient(int organizationId, int patientId);
-
 }

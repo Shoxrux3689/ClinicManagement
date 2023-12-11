@@ -34,11 +34,13 @@ public class PatientRepository : IPatientRepository
         {
             throw new OrganizationIsNotExistsException(patientDto.OrganizationId);
         }
+
         var patient = _mapper.Map<Patient>(patientDto);
         patient.CreatedDate = DateTime.Now;
         await _genericRepository.InsertAsync(patient);
         return _mapper.Map<PatientModel>(patient);
     }
+
     public async ValueTask<IEnumerable<PatientModel>?> GetPatients(PatientFilter filter)
     {
         var patients = _genericRepository.SelectAll();
@@ -47,10 +49,12 @@ public class PatientRepository : IPatientRepository
             patients = patients.Where(t => t.FirstName!.ToLower()
                 .Contains(filter.FirstName.ToLower()));
         }
-        if(filter.OrganizationId is not null)
+
+        if (filter.OrganizationId is not null)
         {
-            patients = patients.Where(t=>t.OrganizationId == filter.OrganizationId);
+            patients = patients.Where(t => t.OrganizationId == filter.OrganizationId);
         }
+
         if (filter.LastName is not null)
         {
             patients = patients.Where(t => t.LastName!.ToLower()
@@ -67,43 +71,48 @@ public class PatientRepository : IPatientRepository
         {
             patients = patients.Where(t => t.PhoneNumber == filter.PhoneNumber);
         }
-        if(filter.CreatedDate is not null)
+
+        if (filter.CreatedDate is not null)
         {
-            patients = patients.Where(t=>t.CreatedDate == filter.CreatedDate);
+            patients = patients.Where(t => t.CreatedDate == filter.CreatedDate);
         }
-        var patientsPages = await patients.ToPagedListAsync(_httpContextHelper,filter);
+
+        var patientsPages = await patients.ToPagedListAsync(_httpContextHelper, filter);
         return patientsPages.Select(v => _mapper.Map<PatientModel>(v));
     }
 
-    public async ValueTask<PatientModel?> GetPatientById(int organizationId,int patientId)
+    public async ValueTask<PatientModel?> GetPatientById(int organizationId, int patientId)
     {
-        var organization = await _organizationRepository.SelectFirstAsync(c=>c.Id == organizationId);
+        var organization = await _organizationRepository.SelectFirstAsync(c => c.Id == organizationId);
         if (organization is null)
         {
             throw new OrganizationIsNotExistsException(organizationId);
         }
-        var patient =  organization.Patients!.FirstOrDefault(i => i.Id == patientId);
+
+        var patient = organization.Patients!.FirstOrDefault(i => i.Id == patientId);
         if (patient is null)
         {
             throw new PatientNotFoundException(patientId);
         }
+
         return _mapper.Map<PatientModel>(patient);
     }
 
     public async ValueTask DeletePatient(int organizationId, int patientId)
     {
-        var organization = await _organizationRepository.SelectFirstAsync(t=>t.Id == organizationId);
+        var organization = await _organizationRepository.SelectFirstAsync(t => t.Id == organizationId);
         if (organization is null)
         {
             throw new OrganizationIsNotExistsException(organizationId);
         }
+
         // null ni ichidan qanday qidiradi, topolmidiyu hech nimani
-        var patient = organization.Patients!.FirstOrDefault(i=>i.Id == patientId);
+        var patient = organization.Patients!.FirstOrDefault(i => i.Id == patientId);
         if (patient is null)
         {
             throw new PatientNotFoundException(patientId);
         }
+
         await _genericRepository.DeleteAsync(patient);
     }
-    
 }
