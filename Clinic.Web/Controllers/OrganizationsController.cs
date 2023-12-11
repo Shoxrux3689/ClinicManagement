@@ -1,4 +1,5 @@
 using Clinic.Domain.Dto_s;
+using Clinic.Services.Exceptions;
 using Clinic.Services.Repositories.OrganizationRepository;
 using Microsoft.AspNetCore.Mvc;
 

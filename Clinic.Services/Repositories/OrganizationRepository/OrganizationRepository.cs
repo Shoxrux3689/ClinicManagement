@@ -2,6 +2,7 @@ using AutoMapper;
 using Clinic.Data.Context;
 using Clinic.Domain.Dto_s;
 using Clinic.Domain.Entities;
+using Clinic.Services.Exceptions;
 using Clinic.Services.Repositories.Generic;
 using Clinic.ViewModel.Models;
 using Microsoft.AspNetCore.Identity;
@@ -12,12 +13,14 @@ namespace Clinic.Services.Repositories.OrganizationRepository;
 public class OrganizationRepository : IOrganizationRepository
 {
     private readonly IGenericRepository<Organization> _organizationRepository;
+    private readonly AppDbContext _appDbContext;
     private readonly IMapper _mapper;
 
-    public OrganizationRepository(IMapper mapper, IGenericRepository<Organization> organizationRepository)
+    public OrganizationRepository(IMapper mapper, IGenericRepository<Organization> organizationRepository, AppDbContext appDbContext)
     {
         _mapper = mapper;
         _organizationRepository = organizationRepository;
+        _appDbContext = appDbContext;
     }
 
     public async ValueTask<OrganizationModel> RegisterOrganization(OrganizationDto organizationDto)
@@ -39,7 +42,8 @@ public class OrganizationRepository : IOrganizationRepository
 
     public async ValueTask<IEnumerable<OrganizationModel>?> GetOrganizations()
     {
-        var organizations = _organizationRepository.SelectAll().AsEnumerable();
+        var organizations = await _organizationRepository.SelectAll().ToListAsync();
+        organizations.Select(c => c.Patients.Select(c => _mapper.Map<PatientModel>(c)));
         return _mapper.Map<IEnumerable<OrganizationModel>>(organizations);
     }
 
