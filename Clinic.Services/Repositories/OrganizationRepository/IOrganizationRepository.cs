@@ -9,5 +9,4 @@ public interface IOrganizationRepository
     ValueTask<IEnumerable<OrganizationModel>?> GetOrganizations();
     ValueTask<OrganizationModel?> GetOrganizationById(int organizationId);
     ValueTask DeleteOrganization(int organizationId);
-    
 }

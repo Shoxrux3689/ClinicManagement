@@ -14,5 +14,4 @@ public class Patient
     public virtual Organization? Organization { get; set; }
     public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
     public virtual ICollection<Visit>? Visits { get; set; }
-    
 }

@@ -15,6 +15,7 @@ public class VisitsController : ControllerBase
     {
         _visitRepository = visitRepository;
     }
+
     [HttpPost]
     public async ValueTask<IActionResult> AddVisit(VisitDto visitDto)
     {
@@ -28,6 +29,7 @@ public class VisitsController : ControllerBase
             return BadRequest(e.Message);
         }
     }
+
     [HttpGet("{patientId}")]
     public async ValueTask<IActionResult> GetVisitsByPatientId(int patientId)
     {
@@ -41,6 +43,7 @@ public class VisitsController : ControllerBase
             return BadRequest(e.Message);
         }
     }
+
     [HttpGet]
     public async ValueTask<IActionResult> GetVisits()
     {
@@ -54,6 +57,7 @@ public class VisitsController : ControllerBase
             return BadRequest(e.Message);
         }
     }
+
     [HttpGet("/patients/{patientId}/visits/{visitId}")]
     public async ValueTask<IActionResult> GetVisitById(int patientId, int visitId)
     {
@@ -66,7 +70,12 @@ public class VisitsController : ControllerBase
         {
             return BadRequest(e.Message);
         }
+        catch (VisitNotFoundException e)
+        {
+            return BadRequest(e.Message);
+        }
     }
+
     [HttpDelete("/patients/{patientId}/visits/{visitId}")]
     public async ValueTask<IActionResult> DeleteVisit(int patientId, int visitId)
     {
@@ -79,6 +88,9 @@ public class VisitsController : ControllerBase
         {
             return BadRequest(e.Message);
         }
+        catch (VisitNotFoundException e)
+        {
+            return BadRequest(e.Message);
+        }
     }
-    
 }

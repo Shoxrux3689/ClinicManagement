@@ -1,5 +1,7 @@
 ﻿using System.Linq.Expressions;
+
 namespace Clinic.Services.Repositories.Generic;
+
 public interface IGenericRepository<TEntity> where TEntity : class
 {
     ValueTask<TEntity> InsertAsync(TEntity entity);

@@ -16,7 +16,8 @@ public class OrganizationRepository : IOrganizationRepository
     private readonly AppDbContext _appDbContext;
     private readonly IMapper _mapper;
 
-    public OrganizationRepository(IMapper mapper, IGenericRepository<Organization> organizationRepository, AppDbContext appDbContext)
+    public OrganizationRepository(IMapper mapper, IGenericRepository<Organization> organizationRepository,
+        AppDbContext appDbContext)
     {
         _mapper = mapper;
         _organizationRepository = organizationRepository;

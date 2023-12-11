@@ -14,8 +14,7 @@ public static class QueryableExtensions
 
         httpContextHelper.AddResponseToHeader("X-Pagination", content);
 
-        return await source.Skip(filterParams.AmountData * (filterParams.PageNumber - 1)).
-            Take(filterParams.AmountData).ToListAsync();
+        return await source.Skip(filterParams.AmountData * (filterParams.PageNumber - 1)).Take(filterParams.AmountData)
+            .ToListAsync();
     }
-    
 }

@@ -30,21 +30,22 @@ public class VisitRepository : IVisitRepository
         {
             throw new PatientNotFoundException(visitDto.PatientId);
         }
+
         var visit = _mapper.Map<Visit>(visitDto);
         visit.VisitDate = DateTime.Now;
         await _visitRepository.InsertAsync(visit);
         return _mapper.Map<VisitModel>(visit);
     }
 
-    public  async ValueTask<IEnumerable<VisitModel>> GetVisitsByPatientId(int patientId)
+    public async ValueTask<IEnumerable<VisitModel>> GetVisitsByPatientId(int patientId)
     {
         var patient = await _patientRepository.SelectFirstAsync(c => c.Id == patientId);
         if (patient == null)
         {
             throw new PatientNotFoundException(patientId);
         }
-        //null ni ichidan qanday qidiradi, topolmidiyu hech nimani
-        var visits =  patient.Visits!.ToList();
+
+        var visits = patient.Visits!.ToList();
         return _mapper.Map<IEnumerable<VisitModel>>(visits);
     }
 
@@ -61,11 +62,13 @@ public class VisitRepository : IVisitRepository
         {
             throw new PatientNotFoundException(patientId);
         }
+
         var visit = patient.Visits!.FirstOrDefault(c => c.Id == visitId);
         if (visit is null)
         {
             throw new VisitNotFoundException(visitId);
         }
+
         return _mapper.Map<VisitModel>(visit);
     }
 
@@ -76,12 +79,13 @@ public class VisitRepository : IVisitRepository
         {
             throw new PatientNotFoundException(patientId);
         }
-        
+
         var visit = patient.Visits!.FirstOrDefault(c => c.Id == visitId);
         if (visit is null)
         {
             throw new VisitNotFoundException(visitId);
         }
+
         await _visitRepository.DeleteAsync(visit);
     }
 }

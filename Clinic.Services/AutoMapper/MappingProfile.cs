@@ -19,5 +19,4 @@ public class MappingProfile : Profile
         CreateMap<Organization, OrganizationModel>().ReverseMap();
         CreateMap<OrganizationDto, OrganizationModel>().ReverseMap();
     }
-    
 }

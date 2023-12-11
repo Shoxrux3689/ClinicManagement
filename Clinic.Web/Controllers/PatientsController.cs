@@ -16,6 +16,7 @@ public class PatientsController : ControllerBase
     {
         _patientRepository = patientRepository;
     }
+
     [HttpPost]
     public async ValueTask<IActionResult> AddPatient(PatientDto patientDto)
     {
@@ -29,18 +30,20 @@ public class PatientsController : ControllerBase
             return BadRequest(e.Message);
         }
     }
+
     [HttpGet]
     public async ValueTask<IActionResult> GetPatients([FromQuery] PatientFilter filter)
     {
         var patients = await _patientRepository.GetPatients(filter);
         return Ok(patients);
     }
+
     [HttpGet("/organizations/{organizationId}/patients/{patientId}")]
-    public async ValueTask<IActionResult> GetPatientById(int organizationId,int patientId)
+    public async ValueTask<IActionResult> GetPatientById(int organizationId, int patientId)
     {
         try
         {
-            var patient = await _patientRepository.GetPatientById(organizationId,patientId);
+            var patient = await _patientRepository.GetPatientById(organizationId, patientId);
             return Ok(patient);
         }
         catch (PatientNotFoundException e)
@@ -52,6 +55,7 @@ public class PatientsController : ControllerBase
             return BadRequest(e.Message);
         }
     }
+
     [HttpDelete("/organizations/{organizationId}/patients/{patientId}")]
     public async ValueTask<IActionResult> DeletePatient(int organizationId, int patientId)
     {

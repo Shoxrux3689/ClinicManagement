@@ -19,10 +19,7 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<HttpContextHelper>();
 builder.Services.AddControllers()
     .AddJsonOptions(
-        options =>
-        {
-            options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
-        });
+        options => { options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles; });
 var connectionString = builder.Configuration.GetConnectionString("AppDbContext");
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
@@ -30,10 +27,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 });
 
 
-var mapperConfig = new MapperConfiguration(mc =>
-{
-    mc.AddProfile(new MappingProfile());
-});
+var mapperConfig = new MapperConfiguration(mc => { mc.AddProfile(new MappingProfile()); });
 
 IMapper mapper = mapperConfig.CreateMapper();
 builder.Services.AddSingleton(mapper);

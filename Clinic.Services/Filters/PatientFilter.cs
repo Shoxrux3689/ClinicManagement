@@ -12,6 +12,4 @@ public class PatientFilter : PaginationParams
     public int? OrganizationId { get; set; }
     public Gender? Gender { get; set; }
     public DateTime? CreatedDate { get; set; }
-
-    
 }
