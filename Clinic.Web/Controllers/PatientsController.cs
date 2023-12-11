@@ -8,11 +8,11 @@ namespace Clinic.Web.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class PatientController : ControllerBase
+public class PatientsController : ControllerBase
 {
     private readonly IPatientRepository _patientRepository;
 
-    public PatientController(IPatientRepository patientRepository)
+    public PatientsController(IPatientRepository patientRepository)
     {
         _patientRepository = patientRepository;
     }
