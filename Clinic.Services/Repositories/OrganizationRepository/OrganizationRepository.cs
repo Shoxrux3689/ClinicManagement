@@ -14,19 +14,19 @@ public class OrganizationRepository : IOrganizationRepository
     private readonly IGenericRepository<Organization> _organizationRepository;
     private readonly IMapper _mapper;
 
-    public OrganizationRepository( IMapper mapper, IGenericRepository<Organization> organizationRepository)
+    public OrganizationRepository(IMapper mapper, IGenericRepository<Organization> organizationRepository)
     {
- 
         _mapper = mapper;
         _organizationRepository = organizationRepository;
     }
 
-    public async ValueTask<OrganizationModel> AddOrganization(OrganizationDto organizationDto)
+    public async ValueTask<OrganizationModel> RegisterOrganization(OrganizationDto organizationDto)
     {
-        if(IsLoginExist(organizationDto.Login).Result)
+        if (IsLoginExist(organizationDto.Login).Result)
             throw new LoginIsAlreadyExistException(organizationDto.Login);
         var organization = _mapper.Map<Organization>(organizationDto);
-        organization.PasswordHash = new PasswordHasher<OrganizationDto>().HashPassword(organizationDto, organizationDto.Password);
+        organization.PasswordHash =
+            new PasswordHasher<OrganizationDto>().HashPassword(organizationDto, organizationDto.Password);
         await _organizationRepository.InsertAsync(organization);
         return _mapper.Map<OrganizationModel>(organization);
     }
@@ -36,25 +36,25 @@ public class OrganizationRepository : IOrganizationRepository
         var isLoginExist = await _organizationRepository.HasAnyAsync(c => c.Login == login);
         return isLoginExist;
     }
-    
+
     public async ValueTask<IEnumerable<OrganizationModel>?> GetOrganizations()
     {
-        var organizations =  _organizationRepository.SelectAll();
+        var organizations = _organizationRepository.SelectAll();
         return _mapper.Map<IEnumerable<OrganizationModel>>(organizations);
     }
 
     public async ValueTask<OrganizationModel?> GetOrganizationById(int organizationId)
     {
-        var organization = await _organizationRepository.SelectFirstAsync(c=>c.Id == organizationId);
-        if(organization == null)
+        var organization = await _organizationRepository.SelectFirstAsync(c => c.Id == organizationId);
+        if (organization == null)
             throw new OrganizationNotFoundException(organizationId);
         return await new ValueTask<OrganizationModel?>(_mapper.Map<OrganizationModel>(organization));
     }
 
     public async ValueTask DeleteOrganization(int organizationId)
     {
-        var organization = await _organizationRepository.SelectFirstAsync(c=>c.Id == organizationId);
-        if(organization == null)
+        var organization = await _organizationRepository.SelectFirstAsync(c => c.Id == organizationId);
+        if (organization == null)
             throw new OrganizationNotFoundException(organizationId);
         await _organizationRepository.DeleteAsync(organization);
     }
