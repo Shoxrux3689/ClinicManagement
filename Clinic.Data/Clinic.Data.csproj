@@ -15,6 +15,10 @@
     <ItemGroup>
       <ProjectReference Include="..\Clinic.Domain\Clinic.Domain.csproj" />
     </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.14" />
+    </ItemGroup>
     
 
 </Project>
