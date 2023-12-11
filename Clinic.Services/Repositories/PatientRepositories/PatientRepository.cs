@@ -79,7 +79,6 @@ public class PatientRepository : IPatientRepository
         {
             throw new OrganizationIsNotExistsException(organizationId);
         }
-        // null ni ichidan qanday qidiradi, topolmidiyu hech nimani
         var patient =  organization.Patients!.FirstOrDefault(i => i.Id == patientId);
         if (patient is null)
         {
