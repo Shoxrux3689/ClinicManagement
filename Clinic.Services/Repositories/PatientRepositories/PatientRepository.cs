@@ -47,7 +47,10 @@ public class PatientRepository : IPatientRepository
             patients = patients.Where(t => t.FirstName!.ToLower()
                 .Contains(filter.FirstName.ToLower()));
         }
-
+        if(filter.OrganizationId is not null)
+        {
+            patients = patients.Where(t=>t.OrganizationId == filter.OrganizationId);
+        }
         if (filter.LastName is not null)
         {
             patients = patients.Where(t => t.LastName!.ToLower()

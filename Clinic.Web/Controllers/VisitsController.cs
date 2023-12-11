@@ -54,7 +54,7 @@ public class VisitsController : ControllerBase
             return BadRequest(e.Message);
         }
     }
-    [HttpGet("{patientId}/{visitId}")]
+    [HttpGet("/patients/{patientId}/visits/{visitId}")]
     public async ValueTask<IActionResult> GetVisitById(int patientId, int visitId)
     {
         try
@@ -67,7 +67,7 @@ public class VisitsController : ControllerBase
             return BadRequest(e.Message);
         }
     }
-    [HttpDelete("{patientId}/{visitId}")]
+    [HttpDelete("/patients/{patientId}/visits/{visitId}")]
     public async ValueTask<IActionResult> DeleteVisit(int patientId, int visitId)
     {
         try

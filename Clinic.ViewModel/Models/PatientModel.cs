@@ -12,5 +12,5 @@ public class PatientModel
     public Gender Gender { get; set; }
     public int OrganizationId { get; set; }
     public DateTime CreatedDate { get; set; }
-    public ICollection<VisitModel>? Visits { get; set; }
+    public virtual ICollection<VisitModel>? Visits { get; set; }
 }

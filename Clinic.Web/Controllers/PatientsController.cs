@@ -29,13 +29,13 @@ public class PatientsController : ControllerBase
             return BadRequest(e.Message);
         }
     }
-    [HttpPost("filter")]
-    public async ValueTask<IActionResult> GetPatients([FromBody] PatientFilter filter)
+    [HttpGet]
+    public async ValueTask<IActionResult> GetPatients([FromQuery] PatientFilter filter)
     {
         var patients = await _patientRepository.GetPatients(filter);
         return Ok(patients);
     }
-    [HttpGet("{organizationId}/{patient/{patientId}}")]
+    [HttpGet("/organizations/{organizationId}/patients/{patientId}")]
     public async ValueTask<IActionResult> GetPatientById(int organizationId,int patientId)
     {
         try
@@ -52,7 +52,7 @@ public class PatientsController : ControllerBase
             return BadRequest(e.Message);
         }
     }
-    [HttpDelete("{organizationId}/{patient/{patientId}}")]
+    [HttpDelete("/organizations/{organizationId}/patients/{patientId}")]
     public async ValueTask<IActionResult> DeletePatient(int organizationId, int patientId)
     {
         try

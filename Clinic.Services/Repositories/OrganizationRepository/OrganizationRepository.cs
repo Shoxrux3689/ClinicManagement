@@ -39,7 +39,7 @@ public class OrganizationRepository : IOrganizationRepository
 
     public async ValueTask<IEnumerable<OrganizationModel>?> GetOrganizations()
     {
-        var organizations = _organizationRepository.SelectAll();
+        var organizations = _organizationRepository.SelectAll().AsEnumerable();
         return _mapper.Map<IEnumerable<OrganizationModel>>(organizations);
     }
 

@@ -15,7 +15,6 @@ public class MappingProfile : Profile
         CreateMap<Visit, VisitDto>().ReverseMap();
         CreateMap<Visit, VisitModel>().ReverseMap();
         CreateMap<VisitModel, VisitDto>().ReverseMap();
-        CreateMap<List<Visit>, List<VisitModel>>().ReverseMap();
         CreateMap<Organization, OrganizationDto>().ReverseMap();
         CreateMap<Organization, OrganizationModel>().ReverseMap();
         CreateMap<OrganizationDto, OrganizationModel>().ReverseMap();
