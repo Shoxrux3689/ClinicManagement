@@ -3,6 +3,7 @@ using AutoMapper;
 using Clinic.Data.Context;
 using Clinic.Services.AutoMapper;
 using Clinic.Services.Extensions;
+using Clinic.Services.Pagination;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +15,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddExtensions();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<HttpContextHelper>();
 builder.Services.AddControllers()
     .AddJsonOptions(
         options =>
