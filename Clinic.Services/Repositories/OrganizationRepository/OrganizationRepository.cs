@@ -30,7 +30,8 @@ public class OrganizationRepository : IOrganizationRepository
             throw new LoginIsAlreadyExistException(organizationDto.Login);
         var organization = _mapper.Map<Organization>(organizationDto);
         organization.PasswordHash =
-            new PasswordHasher<OrganizationDto>().HashPassword(organizationDto, organizationDto.Password);
+            new PasswordHasher<OrganizationDto>().HashPassword
+                (organizationDto, organizationDto.Password);
         await _organizationRepository.InsertAsync(organization);
         return _mapper.Map<OrganizationModel>(organization);
     }

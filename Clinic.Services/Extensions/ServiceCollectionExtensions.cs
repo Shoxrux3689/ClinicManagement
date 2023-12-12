@@ -4,6 +4,7 @@ using Clinic.Services.AutoMapper;
 using Clinic.Services.Repositories.Generic;
 using Clinic.Services.Repositories.OrganizationRepository;
 using Clinic.Services.Repositories.PatientRepositories;
+using Clinic.Services.Repositories.TreatmentRepositories;
 using Clinic.Services.Repositories.VisitRepositories;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -16,6 +17,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
         services.AddScoped<IVisitRepository, VisitRepository>();
         services.AddScoped<IPatientRepository, PatientRepository>();
+        services.AddScoped<ITreatmentRepository, TreatmentRepository>();
         services.AddScoped<IOrganizationRepository, OrganizationRepository>();
 
         var mapperConfig = new MapperConfiguration(mc => { mc.AddProfile(new MappingProfile()); });
