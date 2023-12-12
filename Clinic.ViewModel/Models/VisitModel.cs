@@ -9,4 +9,5 @@ public class VisitModel
     public string Prescription { get; set; }
     public int PatientId { get; set; }
     public decimal Cost { get; set; }
+    public virtual ICollection<VisitTreatmentModel>? VisitsTreatments { get; set; }
 }

@@ -46,12 +46,20 @@ public class VisitRepository : IVisitRepository
         }
 
         var visits = patient.Visits!.ToList();
+        if (visits.Select(c => c.VisitsTreatments).ToList() is not null)
+        {
+           visits.Select(c => c.VisitsTreatments!.Select(c => _mapper.Map<VisitTreatmentModel>(c.Treatment)));
+        }
         return _mapper.Map<IEnumerable<VisitModel>>(visits);
     }
 
     public async ValueTask<IEnumerable<VisitModel>> GetVisits()
     {
         var visits = await _visitRepository.SelectAll().ToListAsync();
+        if (visits.Select(c => c.VisitsTreatments).ToList() is not null)
+        {
+            visits.Select(c => c.VisitsTreatments!.Select(c => _mapper.Map<VisitTreatmentModel>(c.Treatment)));
+        }
         return _mapper.Map<IEnumerable<VisitModel>>(visits);
     }
 
@@ -68,7 +76,10 @@ public class VisitRepository : IVisitRepository
         {
             throw new VisitNotFoundException(visitId);
         }
-
+        if (visit.VisitsTreatments.ToList() is not null)
+        {
+            visit.VisitsTreatments.Select(c => _mapper.Map<VisitTreatmentModel>(c.Treatment));
+        }
         return _mapper.Map<VisitModel>(visit);
     }
 

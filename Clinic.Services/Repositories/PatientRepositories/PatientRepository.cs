@@ -76,7 +76,6 @@ public class PatientRepository : IPatientRepository
         {
             patients = patients.Where(t => t.CreatedDate == filter.CreatedDate);
         }
-
         var patientsPages = await patients.ToPagedListAsync(_httpContextHelper, filter);
         return patientsPages.Select(v => _mapper.Map<PatientModel>(v));
     }

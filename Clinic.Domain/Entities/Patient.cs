@@ -12,6 +12,6 @@ public class Patient
     public Gender Gender { get; set; }
     public int OrganizationId { get; set; }
     public virtual Organization? Organization { get; set; }
-    public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
+    public DateTime CreatedDate { get; set; } = DateTime.Now;
     public virtual ICollection<Visit>? Visits { get; set; }
 }
