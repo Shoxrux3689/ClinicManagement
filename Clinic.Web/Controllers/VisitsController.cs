@@ -1,5 +1,6 @@
 using Clinic.Domain.Dto_s;
 using Clinic.Services.Exceptions;
+using Clinic.Services.Repositories.TreatmentRepositories;
 using Clinic.Services.Repositories.VisitRepositories;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,6 +25,11 @@ public class VisitsController : ControllerBase
             var visit = await _visitRepository.AddVisit(visitDto);
             return Ok(visit);
         }
+        catch (TreatmentNotFoundException e)
+        {
+            return BadRequest(e.Message);
+        }
+        
         catch (PatientNotFoundException e)
         {
             return BadRequest(e.Message);

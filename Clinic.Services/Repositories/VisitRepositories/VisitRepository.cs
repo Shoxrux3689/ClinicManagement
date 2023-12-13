@@ -3,6 +3,7 @@ using Clinic.Domain.Dto_s;
 using Clinic.Domain.Entities;
 using Clinic.Services.Exceptions;
 using Clinic.Services.Repositories.Generic;
+using Clinic.Services.Repositories.TreatmentRepositories;
 using Clinic.ViewModel.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,16 +13,20 @@ public class VisitRepository : IVisitRepository
 {
     private readonly IGenericRepository<Visit> _visitRepository;
     private readonly IGenericRepository<Patient> _patientRepository;
+    private readonly IGenericRepository<Treatment> _treatmentRepository;
+    private readonly IGenericRepository<VisitTreatment> _visitTreatmentRepository;
     private readonly IMapper _mapper;
 
     public VisitRepository(IGenericRepository<Visit> visitRepository, IGenericRepository<Patient> patientRepository,
-        IMapper mapper)
+        IMapper mapper, IGenericRepository<Treatment> treatmentRepository, IGenericRepository<VisitTreatment> visitTreatmentRepository)
     {
         _visitRepository = visitRepository;
         _patientRepository = patientRepository;
         _mapper = mapper;
+        _treatmentRepository = treatmentRepository;
+        _visitTreatmentRepository = visitTreatmentRepository;
     }
-
+    
     public async ValueTask<VisitModel> AddVisit(VisitDto visitDto)
     {
         var patient = await _patientRepository.SelectFirstAsync
@@ -31,11 +36,36 @@ public class VisitRepository : IVisitRepository
             throw new PatientNotFoundException(visitDto.PatientId);
         }
 
-        var visit = _mapper.Map<Visit>(visitDto);
-        visit.VisitDate = DateTime.Now;
-        await _visitRepository.InsertAsync(visit);
-        return _mapper.Map<VisitModel>(visit);
+        if (visitDto.TreatmentId is not null)
+        {
+            var treatment = await _treatmentRepository.SelectFirstAsync
+                (c => c.Id == visitDto.TreatmentId);
+            if (treatment == null)
+            {
+                throw new TreatmentNotFoundException(visitDto.TreatmentId.Value);
+            }
+
+            var visit = _mapper.Map<Visit>(visitDto);
+            visit.VisitDate = DateTime.Now;
+            var result  = await _visitRepository.InsertAsync(visit);
+            var visitTreatment = new VisitTreatment
+            {
+                VisitId = result.Id,
+                TreatmentId = treatment.Id
+            };
+            await _visitTreatmentRepository.InsertAsync(visitTreatment);
+            return _mapper.Map<VisitModel>(visit);
+        }
+        else
+        {
+            var visit = _mapper.Map<Visit>(visitDto);
+            visit.VisitDate = DateTime.Now;
+            await _visitRepository.InsertAsync(visit);
+        }
+
+        return null;
     }
+    
 
     public async ValueTask<IEnumerable<VisitModel>> GetVisitsByPatientId(int patientId)
     {
@@ -48,8 +78,9 @@ public class VisitRepository : IVisitRepository
         var visits = patient.Visits!.ToList();
         if (visits.Select(c => c.VisitsTreatments).ToList() is not null)
         {
-           visits.Select(c => c.VisitsTreatments!.Select(c => _mapper.Map<VisitTreatmentModel>(c.Treatment)));
+            visits.Select(c => c.VisitsTreatments!.Select(c => _mapper.Map<VisitTreatmentModel>(c.Treatment)));
         }
+
         return _mapper.Map<IEnumerable<VisitModel>>(visits);
     }
 
@@ -60,6 +91,7 @@ public class VisitRepository : IVisitRepository
         {
             visits.Select(c => c.VisitsTreatments!.Select(c => _mapper.Map<VisitTreatmentModel>(c.Treatment)));
         }
+
         return _mapper.Map<IEnumerable<VisitModel>>(visits);
     }
 
@@ -76,10 +108,12 @@ public class VisitRepository : IVisitRepository
         {
             throw new VisitNotFoundException(visitId);
         }
+
         if (visit.VisitsTreatments.ToList() is not null)
         {
             visit.VisitsTreatments.Select(c => _mapper.Map<VisitTreatmentModel>(c.Treatment));
         }
+
         return _mapper.Map<VisitModel>(visit);
     }
 

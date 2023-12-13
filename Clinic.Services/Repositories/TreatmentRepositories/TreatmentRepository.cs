@@ -12,16 +12,14 @@ public class TreatmentRepository : ITreatmentRepository
 {
     private readonly IGenericRepository<Treatment> _treatmentRepository;
     private readonly IGenericRepository<Organization> _organizationRepository;
-    private readonly IGenericRepository<VisitTreatment> _visitTreatmentRepository;
+   
     private readonly IMapper _mapper;
 
-    public TreatmentRepository(IGenericRepository<Treatment> treatmentRepository,
-        IGenericRepository<Organization> organizationRepository, IMapper mapper, IGenericRepository<VisitTreatment> visitTreatmentRepository)
+    public TreatmentRepository(IGenericRepository<Treatment> treatmentRepository, IMapper mapper, IGenericRepository<Organization> organizationRepository)
     {
         _treatmentRepository = treatmentRepository;
-        _organizationRepository = organizationRepository;
         _mapper = mapper;
-        _visitTreatmentRepository = visitTreatmentRepository;
+        _organizationRepository = organizationRepository;
     }
 
     public async Task<TreatmentModel> AddTreatmentAsync(TreatmentDto treatmentDto)
@@ -31,33 +29,15 @@ public class TreatmentRepository : ITreatmentRepository
         {
             throw new OrganizationIsNotExistsException(treatmentDto.OrganizationId);
         }
-
-        var patient = organization.Patients!.FirstOrDefault(i => i.Id == treatmentDto.PatientId);
-        if (patient == null)
-        {
-            throw new PatientNotFoundException(treatmentDto.PatientId);
-        }
-
-        var visit = patient.Visits!.FirstOrDefault(i => i.Id == treatmentDto.VisitId);
-        if (visit == null)
-        {
-            throw new VisitNotFoundException(treatmentDto.VisitId);
-        }
-
         var treatment = _mapper.Map<Treatment>(treatmentDto);
         await _treatmentRepository.InsertAsync(treatment);
-        var visitTreatment = new VisitTreatment
-        {
-            TreatmentId = treatment.Id,
-            VisitId = visit.Id
-        };
-        await _visitTreatmentRepository.InsertAsync(visitTreatment);
         return _mapper.Map<TreatmentModel>(treatment);
     }
 
     public async Task<TreatmentModel> GetTreatmentByIdAsync(int id)
     {
-        var treatment= await _treatmentRepository.SelectFirstAsync(i => i.Id == id);
+        var treatment= await _treatmentRepository.SelectFirstAsync
+            (i => i.Id == id);
         if (treatment == null)
         {
             throw new TreatmentNotFoundException(id);
@@ -70,7 +50,7 @@ public class TreatmentRepository : ITreatmentRepository
         var treatments  = await _treatmentRepository.SelectAll().ToListAsync();
         return _mapper.Map<IEnumerable<TreatmentModel>>(treatments);
     }
-
+    
     public Task<TreatmentModel> UpdateTreatmentAsync(TreatmentDto treatmentDto)
     {
         throw new NotImplementedException();
