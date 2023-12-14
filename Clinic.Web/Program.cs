@@ -6,8 +6,14 @@ using Clinic.Services.Extensions;
 using Clinic.Services.Pagination;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using Serilog;
+using Serilog.Events;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Host.UseSerilog((context, configuration) =>
+{
+    configuration.WriteTo.File("log.txt", rollingInterval: RollingInterval.Minute);
+});
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddExtensions(builder.Configuration);
@@ -19,7 +25,7 @@ builder.Services.AddControllers()
 var connectionString = builder.Configuration.GetConnectionString("AppDbContext");
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
-    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+    options.UseSqlServer(connectionString);
 });
 builder.
     Services.AddSwaggerGen(options =>
