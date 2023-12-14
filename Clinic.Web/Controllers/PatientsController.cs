@@ -2,12 +2,14 @@ using Clinic.Domain.Dto_s;
 using Clinic.Services.Exceptions;
 using Clinic.Services.Filters;
 using Clinic.Services.Repositories.PatientRepositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Clinic.Web.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize]
 public class PatientsController : ControllerBase
 {
     private readonly IPatientRepository _patientRepository;
