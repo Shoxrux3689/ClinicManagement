@@ -2,6 +2,7 @@ using Clinic.Domain.Dto_s;
 using Clinic.Services.Exceptions;
 using Clinic.Services.Repositories.OrganizationRepository;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 
 namespace Clinic.Web.Controllers;
 
@@ -17,6 +18,7 @@ public class OrganizationsController : ControllerBase
     [HttpPost]
     public async ValueTask<IActionResult> LoginOrganization(LoginOrganizationDto loginOrganizationDto)
     {
+        Log.Error("LoginOrganization");
         try
         {
             var token = await _organizationRepository.LoginOrganization(loginOrganizationDto);
@@ -34,10 +36,12 @@ public class OrganizationsController : ControllerBase
     [HttpPost("register")]
     public async ValueTask<IActionResult> AddOrganization(CreateOrganizationDto createOrganizationDto)
     {
+        Log.Error("LoginOrganization");
         try
         {
             var organization = await _organizationRepository.AddOrganization(createOrganizationDto);
             return Ok(organization);
+            
         }
         catch (LoginIsAlreadyExistException e)
         {

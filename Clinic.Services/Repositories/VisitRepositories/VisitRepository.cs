@@ -147,15 +147,10 @@ public class VisitRepository : IVisitRepository
         return _mapper.Map<IEnumerable<VisitModel>>(visits);
     }
 
-    public async ValueTask<VisitModel> GetVisitById(int patientId, int visitId)
+    public async ValueTask<VisitModel> GetVisitById(int visitId)
     {
-        var patient = await _patientRepository.SelectFirstAsync(c => c.Id == patientId);
-        if (patient == null)
-        {
-            throw new PatientNotFoundException(patientId);
-        }
 
-        var visit = patient.Visits!.FirstOrDefault(c => c.Id == visitId);
+        var visit = await _visitRepository.SelectFirstAsync(c => c.Id == visitId);
         if (visit is null)
         {
             throw new VisitNotFoundException(visitId);
@@ -169,15 +164,10 @@ public class VisitRepository : IVisitRepository
         return _mapper.Map<VisitModel>(visit);
     }
 
-    public async ValueTask DeleteVisit(int patientId, int visitId)
+    public async ValueTask DeleteVisit(int visitId)
     {
-        var patient = await _patientRepository.SelectFirstAsync(c => c.Id == patientId);
-        if (patient == null)
-        {
-            throw new PatientNotFoundException(patientId);
-        }
 
-        var visit = patient.Visits!.FirstOrDefault(c => c.Id == visitId);
+        var visit = await _visitRepository.SelectFirstAsync(c => c.Id == visitId);
         if (visit is null)
         {
             throw new VisitNotFoundException(visitId);

@@ -13,6 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Host.UseSerilog((context, configuration) =>
 {
     configuration.WriteTo.File("log.txt", rollingInterval: RollingInterval.Minute);
+    configuration.MinimumLevel.Error();
 });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -69,8 +70,14 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
+app.UseSerilogRequestLogging();
 
+app.UseCors(c => 
+    c.AllowAnyOrigin()
+        .AllowAnyHeader()
+        .AllowAnyMethod());
+app.UseAuthentication();
+app.UseAuthorization();
 app.MapControllers();
 
 app.Run();

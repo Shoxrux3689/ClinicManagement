@@ -4,7 +4,7 @@ using Clinic.Services.Filters;
 using Clinic.Services.Repositories.PatientRepositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
+using Serilog;
 namespace Clinic.Web.Controllers;
 
 [ApiController]
@@ -22,6 +22,8 @@ public class PatientsController : ControllerBase
     [HttpPost]
     public async ValueTask<IActionResult> AddPatient(PatientDto patientDto)
     {
+        
+        Log.Error("LoginOrganization");
         try
         {
             var patient = await _patientRepository.AddPatient(patientDto);
@@ -55,12 +57,12 @@ public class PatientsController : ControllerBase
         }
     }
     
-    [HttpGet("/organizations/{organizationId}/patients/{patientId}")]
-    public async ValueTask<IActionResult> GetPatientById(int organizationId, int patientId)
+    [HttpGet("{patientId}")]
+    public async ValueTask<IActionResult> GetPatientById(int patientId)
     {
         try
         {
-            var patient = await _patientRepository.GetPatientById(organizationId, patientId);
+            var patient = await _patientRepository.GetPatientById( patientId);
             return Ok(patient);
         }
         catch (PatientNotFoundException e)
@@ -73,12 +75,12 @@ public class PatientsController : ControllerBase
         }
     }
 
-    [HttpDelete("/organizations/{organizationId}/patients/{patientId}")]
-    public async ValueTask<IActionResult> DeletePatient(int organizationId, int patientId)
+    [HttpDelete("{patientId}")]
+    public async ValueTask<IActionResult> DeletePatient(int patientId)
     {
         try
         {
-            await _patientRepository.DeletePatient(organizationId, patientId);
+            await _patientRepository.DeletePatient(patientId);
             return Ok();
         }
         catch (PatientNotFoundException e)
