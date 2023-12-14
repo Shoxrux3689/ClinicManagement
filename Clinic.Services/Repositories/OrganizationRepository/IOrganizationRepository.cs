@@ -5,8 +5,9 @@ namespace Clinic.Services.Repositories.OrganizationRepository;
 
 public interface IOrganizationRepository
 {
-    ValueTask<OrganizationModel> RegisterOrganization(OrganizationDto organizationDto);
-    ValueTask<IEnumerable<OrganizationModel>?> GetOrganizations();
-    ValueTask<OrganizationModel?> GetOrganizationById(int organizationId);
-    ValueTask DeleteOrganization(int organizationId);
+    ValueTask<string>LoginOrganization(LoginOrganizationDto loginOrganizationDto);
+    ValueTask<OrganizationModel> AddOrganization(CreateOrganizationDto createOrganizationDto);
+    // ValueTask<IEnumerable<OrganizationModel>?> GetOrganizations();
+    // ValueTask<OrganizationModel?> GetOrganizationById(int organizationId);
+    // ValueTask DeleteOrganization(int organizationId);
 }

@@ -15,9 +15,10 @@ public class MappingProfile : Profile
         CreateMap<Visit, VisitDto>().ReverseMap();
         CreateMap<Visit, VisitModel>().ReverseMap();
         CreateMap<VisitModel, VisitDto>().ReverseMap();
-        CreateMap<Organization, OrganizationDto>().ReverseMap();
+        CreateMap<Organization, LoginOrganizationDto>().ReverseMap();
+        CreateMap<CreateOrganizationDto, Organization>().ReverseMap();
         CreateMap<Organization, OrganizationModel>().ReverseMap();
-        CreateMap<OrganizationDto, OrganizationModel>().ReverseMap();
+        CreateMap<LoginOrganizationDto, OrganizationModel>().ReverseMap();
         CreateMap<TreatmentDto,TreatmentModel>().ReverseMap();
         CreateMap<Treatment,TreatmentModel>().ReverseMap();
         CreateMap<Treatment,TreatmentDto>().ReverseMap();

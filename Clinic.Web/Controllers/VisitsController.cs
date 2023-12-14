@@ -2,12 +2,14 @@ using Clinic.Domain.Dto_s;
 using Clinic.Services.Exceptions;
 using Clinic.Services.Repositories.TreatmentRepositories;
 using Clinic.Services.Repositories.VisitRepositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Clinic.Web.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize]
 public class VisitsController : ControllerBase
 {
     private readonly IVisitRepository _visitRepository;
