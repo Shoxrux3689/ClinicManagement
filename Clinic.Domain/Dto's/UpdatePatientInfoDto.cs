@@ -1,14 +1,13 @@
-using Clinic.Domain.Entities;
 using Clinic.Domain.Enums;
 
 namespace Clinic.Domain.Dto_s;
 
-public class PatientDto
+public class UpdatePatientInfoDto
 {
+    public int Id { get; set; }
     public string? FirstName { get; set; }
     public string? LastName { get; set; }
-    public DateTime DateOfBirth { get; set; }
-    public int OrganizationId { get; set; }
+    public DateTime? DateOfBirth { get; set; }
     public string? PhoneNumber { get; set; }
-    public Gender Gender { get; set; }
+    public Gender? Gender { get; set; }
 }

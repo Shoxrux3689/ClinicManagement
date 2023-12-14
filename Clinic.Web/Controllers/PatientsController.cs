@@ -40,6 +40,21 @@ public class PatientsController : ControllerBase
         return Ok(patients);
     }
 
+    
+    [HttpPut]
+    public async ValueTask<IActionResult> UpdatePatient([FromForm]UpdatePatientInfoDto patientDto)
+    {
+        try
+        {
+            var patient = await _patientRepository.UpdatePatient(patientDto);
+            return Ok(patient);
+        }
+        catch (PatientNotFoundException e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
+    
     [HttpGet("/organizations/{organizationId}/patients/{patientId}")]
     public async ValueTask<IActionResult> GetPatientById(int organizationId, int patientId)
     {

@@ -11,11 +11,11 @@ namespace Clinic.Web.Controllers;
 [Route("api/[controller]")]
 
 [Authorize]
-public class TreatmentController : ControllerBase
+public class TreatmentsController : ControllerBase
 {
     private readonly ITreatmentRepository _treatmentRepository;
 
-    public TreatmentController(ITreatmentRepository treatmentRepository)
+    public TreatmentsController(ITreatmentRepository treatmentRepository)
     {
         _treatmentRepository = treatmentRepository;
     }
