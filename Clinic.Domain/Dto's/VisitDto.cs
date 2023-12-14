@@ -6,6 +6,5 @@ public class VisitDto
     public string Diagnosis { get; set; }
     public string Prescription { get; set; }
     public int PatientId { get; set; }
-    public int? TreatmentId { get; set; }
     public decimal Cost { get; set; }
 }

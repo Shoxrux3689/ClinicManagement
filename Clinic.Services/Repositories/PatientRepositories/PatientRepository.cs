@@ -8,6 +8,7 @@ using Clinic.Services.Pagination;
 using Clinic.Services.Repositories.Generic;
 using Clinic.ViewModel.Models;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Clinic.Services.Repositories.PatientRepositories;
 
@@ -38,6 +39,42 @@ public class PatientRepository : IPatientRepository
         var patient = _mapper.Map<Patient>(patientDto);
         patient.CreatedDate = DateTime.Now;
         await _genericRepository.InsertAsync(patient);
+        return _mapper.Map<PatientModel>(patient);
+    }
+
+    public async ValueTask<PatientModel> UpdatePatient(UpdatePatientInfoDto patientDto)
+    {
+        var patient = await _genericRepository.
+            SelectFirstAsync(c => c.Id == patientDto.Id);
+        if (patient is null)
+        {
+            throw new PatientNotFoundException(patientDto.Id);
+        }
+        if (patientDto.FirstName is null)
+        {
+            patientDto.FirstName = patient.FirstName;
+        }
+
+        if (patientDto.PhoneNumber is null)
+        {
+            patientDto.PhoneNumber = patient.PhoneNumber;
+        }
+
+        if (patientDto.LastName is null)
+        {
+            patientDto.PhoneNumber = patient.PhoneNumber;
+        }   
+        if (patientDto.Gender is null)
+        {
+            patientDto.Gender = patient.Gender;
+        }
+
+        if (patientDto.DateOfBirth is null)
+        {
+            patientDto.DateOfBirth = patient.DateOfBirth;
+        }
+        _mapper.Map(patientDto,patient);
+        await _genericRepository.UpdateAsync(patient);
         return _mapper.Map<PatientModel>(patient);
     }
 

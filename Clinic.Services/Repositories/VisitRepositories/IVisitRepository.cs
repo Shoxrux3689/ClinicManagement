@@ -7,6 +7,7 @@ namespace Clinic.Services.Repositories.VisitRepositories;
 public interface IVisitRepository
 {
     ValueTask<VisitModel> AddVisit(VisitDto visitDto);
+    ValueTask<VisitModel> UpdateVisit(UpdateVisitDto visitDto);
     ValueTask<IEnumerable<VisitModel>> GetVisitsByPatientId(int patientId);
     ValueTask<IEnumerable<VisitModel>> GetVisits();
     ValueTask<VisitModel> GetVisitById(int patientId, int visitId);

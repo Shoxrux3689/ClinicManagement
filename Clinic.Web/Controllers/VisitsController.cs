@@ -9,7 +9,7 @@ namespace Clinic.Web.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-[Authorize]
+
 public class VisitsController : ControllerBase
 {
     private readonly IVisitRepository _visitRepository;
@@ -20,7 +20,7 @@ public class VisitsController : ControllerBase
     }
 
     [HttpPost]
-    public async ValueTask<IActionResult> AddVisit(VisitDto visitDto)
+    public async ValueTask<IActionResult> AddVisit([FromForm]VisitDto visitDto)
     {
         try
         {
@@ -38,6 +38,27 @@ public class VisitsController : ControllerBase
         }
     }
 
+    [HttpPut]
+    public async ValueTask<IActionResult> UpdateVisit([FromForm]UpdateVisitDto visitDto)
+    {
+        try
+        {
+            var visit = await _visitRepository.UpdateVisit(visitDto);
+            return Ok(visit);
+        }
+        catch (PatientNotFoundException e)
+        {
+            return BadRequest(e.Message);
+        }
+        catch (VisitNotFoundException e)
+        {
+            return BadRequest(e.Message);
+        }
+        catch (TreatmentNotFoundException e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
     [HttpGet("{patientId}")]
     public async ValueTask<IActionResult> GetVisitsByPatientId(int patientId)
     {

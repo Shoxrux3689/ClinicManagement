@@ -17,6 +17,8 @@ public class MappingProfile : Profile
         CreateMap<VisitModel, VisitDto>().ReverseMap();
         CreateMap<Organization, LoginOrganizationDto>().ReverseMap();
         CreateMap<CreateOrganizationDto, Organization>().ReverseMap();
+        CreateMap<UpdateVisitDto, Visit>();
+        CreateMap<UpdatePatientInfoDto ,Patient>();
         CreateMap<Organization, OrganizationModel>().ReverseMap();
         CreateMap<LoginOrganizationDto, OrganizationModel>().ReverseMap();
         CreateMap<TreatmentDto,TreatmentModel>().ReverseMap();
