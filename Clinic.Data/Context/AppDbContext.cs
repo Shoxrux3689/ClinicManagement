@@ -19,4 +19,16 @@ public class AppDbContext : DbContext
     {
         optionsBuilder.UseLazyLoadingProxies();
     }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<VisitTreatment>().HasKey(c => c.Id);
+        modelBuilder.Entity<Patient>().HasKey(c => c.Id);
+        modelBuilder.Entity<Patient>().HasMany(c => c.Visits).WithOne(c => c.Patient);
+        modelBuilder.Entity<VisitTreatment>()
+            .HasOne(vt => vt.Visit)
+            .WithMany(v => v.VisitsTreatments)
+            .HasForeignKey(vt => vt.VisitId)
+            .OnDelete(DeleteBehavior.Restrict);
+    }
 }
