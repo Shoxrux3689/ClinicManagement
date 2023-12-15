@@ -117,7 +117,7 @@ public class PatientRepository : IPatientRepository
         return patientsPages.Select(v => _mapper.Map<PatientModel>(v));
     }
 
-    public async ValueTask<PatientModel?> GetPatientById( int patientId)
+    public async ValueTask<PatientModel?> GetPatientById(int patientId)
     {
 
         var patient = await _genericRepository.SelectFirstAsync(c=>c.Id == patientId);
@@ -125,7 +125,6 @@ public class PatientRepository : IPatientRepository
         {
             throw new PatientNotFoundException(patientId);
         }
-
         return _mapper.Map<PatientModel>(patient);
     }
 
