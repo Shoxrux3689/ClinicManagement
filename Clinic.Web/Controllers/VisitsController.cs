@@ -9,7 +9,7 @@ namespace Clinic.Web.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-
+[Authorize]
 public class VisitsController : ControllerBase
 {
     private readonly IVisitRepository _visitRepository;
@@ -59,7 +59,7 @@ public class VisitsController : ControllerBase
             return BadRequest(e.Message);
         }
     }
-    [HttpGet("{patientId}")]
+    [HttpGet("visitsPatientId/{patientId}")]
     public async ValueTask<IActionResult> GetVisitsByPatientId(int patientId)
     {
         try
@@ -87,12 +87,12 @@ public class VisitsController : ControllerBase
         }
     }
 
-    [HttpGet("/patients/{patientId}/visits/{visitId}")]
-    public async ValueTask<IActionResult> GetVisitById(int patientId, int visitId)
+    [HttpGet("{visitId}")]
+    public async ValueTask<IActionResult> GetVisitById(int visitId)
     {
         try
         {
-            var visit = await _visitRepository.GetVisitById(patientId, visitId);
+            var visit = await _visitRepository.GetVisitById(visitId);
             return Ok(visit);
         }
         catch (PatientNotFoundException e)
@@ -105,12 +105,12 @@ public class VisitsController : ControllerBase
         }
     }
 
-    [HttpDelete("/patients/{patientId}/visits/{visitId}")]
-    public async ValueTask<IActionResult> DeleteVisit(int patientId, int visitId)
+    [HttpDelete("{visitId}")]
+    public async ValueTask<IActionResult> DeleteVisit(int visitId)
     {
         try
         {
-            await _visitRepository.DeleteVisit(patientId, visitId);
+            await _visitRepository.DeleteVisit( visitId);
             return Ok();
         }
         catch (PatientNotFoundException e)

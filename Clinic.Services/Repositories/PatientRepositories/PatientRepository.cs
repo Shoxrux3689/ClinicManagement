@@ -62,7 +62,7 @@ public class PatientRepository : IPatientRepository
 
         if (patientDto.LastName is null)
         {
-            patientDto.PhoneNumber = patient.PhoneNumber;
+            patientDto.LastName = patient.LastName;
         }   
         if (patientDto.Gender is null)
         {
@@ -117,15 +117,10 @@ public class PatientRepository : IPatientRepository
         return patientsPages.Select(v => _mapper.Map<PatientModel>(v));
     }
 
-    public async ValueTask<PatientModel?> GetPatientById(int organizationId, int patientId)
+    public async ValueTask<PatientModel?> GetPatientById( int patientId)
     {
-        var organization = await _organizationRepository.SelectFirstAsync(c => c.Id == organizationId);
-        if (organization is null)
-        {
-            throw new OrganizationIsNotExistsException(organizationId);
-        }
 
-        var patient = organization.Patients!.FirstOrDefault(i => i.Id == patientId);
+        var patient = await _genericRepository.SelectFirstAsync(c=>c.Id == patientId);
         if (patient is null)
         {
             throw new PatientNotFoundException(patientId);
@@ -134,16 +129,9 @@ public class PatientRepository : IPatientRepository
         return _mapper.Map<PatientModel>(patient);
     }
 
-    public async ValueTask DeletePatient(int organizationId, int patientId)
+    public async ValueTask DeletePatient(int patientId)
     {
-        var organization = await _organizationRepository.SelectFirstAsync(t => t.Id == organizationId);
-        if (organization is null)
-        {
-            throw new OrganizationIsNotExistsException(organizationId);
-        }
-
-        // null ni ichidan qanday qidiradi, topolmidiyu hech nimani
-        var patient = organization.Patients!.FirstOrDefault(i => i.Id == patientId);
+        var patient = await _genericRepository.SelectFirstAsync(c => c.Id == patientId);
         if (patient is null)
         {
             throw new PatientNotFoundException(patientId);
