@@ -69,10 +69,7 @@ public class PatientsController : ControllerBase
         {
             return BadRequest(e.Message);
         }
-        catch (OrganizationIsNotExistsException e)
-        {
-            return BadRequest(e.Message);
-        }
+       
     }
 
     [HttpDelete("{patientId}")]
@@ -84,10 +81,6 @@ public class PatientsController : ControllerBase
             return Ok();
         }
         catch (PatientNotFoundException e)
-        {
-            return BadRequest(e.Message);
-        }
-        catch (OrganizationIsNotExistsException e)
         {
             return BadRequest(e.Message);
         }
