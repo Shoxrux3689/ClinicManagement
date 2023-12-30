@@ -3,6 +3,7 @@ using Clinic.Domain.Dto_s;
 using Clinic.Domain.Entities;
 using Clinic.ViewModel.Models;
 
+
 namespace Clinic.Services.AutoMapper;
 
 public class MappingProfile : Profile
