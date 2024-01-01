@@ -6,9 +6,6 @@ public class VisitTreatment
     public int VisitId { get; set; }
     public virtual Visit? Visit { get; set; }
     public int TreatmentId { get; set; }
-    
-
     public virtual Treatment? Treatment { get; set; }
-    
     public DateTime Date { get; set; }
 }
